@@ -6,23 +6,24 @@
 /*   By: molla <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 10:00:57 by molla             #+#    #+#             */
-/*   Updated: 2023/04/03 10:53:08 by molla            ###   ########.fr       */
+/*   Updated: 2023/04/04 10:17:46 by molla            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <errno.h>
 
 int parsing(int argc, char **argv)
 {
 	int fd;
 
 	if (argc != 5)
-		return (write(2, "Incorrect number of arguments", 29), 1);
+		return (write(2, "Invalid numbers of arguments\n", 29), 1);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		return (write(2, "File does not exist\n", 20), 1);
+		return (perror("Open"), 1);
 	if (close(fd) == -1)
-		return (write(2, "File can't be closed\n", 21), 1);
+		return (perror("Close"), 1);
 	return (0);
 }
 
@@ -34,9 +35,9 @@ int main(int argc, char **argv)
 	if (parsing(argc, argv) == 1)
 		return (1);
 	if (pipe(fd) == -1)
-		return (write(2, "The pipe didn't open\n", 21), 1);
+		return (perror("Pipe"), 1);
 	pid = fork();
 	if (pid == -1)
-		return (write(2, "Error with the fork\n", 20), 1);
+		return (perror("Fork"), 1);
 	
 }
