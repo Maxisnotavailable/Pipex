@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: molla <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/25 10:22:06 by molla             #+#    #+#             */
-/*   Updated: 2023/04/28 17:01:52 by molla            ###   ########.fr       */
+/*   Created: 2023/04/24 08:47:33 by molla             #+#    #+#             */
+/*   Updated: 2023/04/26 16:41:01 by molla            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-# include "Libft/libft.h"
+# include "../Libft/libft.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -24,19 +24,17 @@ typedef struct s_struct {
 	char	**paths;
 	char	**args;
 	int		cmd_nbr;
-	int		infile;
+	int		nb_cmd;
 	int		outfile;
 	int		pid;
-	int		pid2;
+	int		fd_in;
+	int		fd_out;
+	int		fd_pipe;
 }	t_struct;
 
-void	child_process(int *fd, t_struct *pipex, char **argv, char **envp);
-void	child2_process(int *fd, t_struct *pipex, char **argv, char **envp);
-int		parent_process(int *fd, t_struct *pipex, int x);
-
-void	free_tab(char **tab);
-int		establishment(t_struct *pipex, char **argv, char **envp, int *fd);
-void	create_paths_tab(t_struct *pipex, char **envp);
-int		check_cmd(char **argv, t_struct *pipex, int i);
+int	establishment(t_struct *pipex, int argc, char **argv, char **envp);
+int	create_paths_tab(t_struct *pipex, char **envp);
+int	check_cmd(char **argv, t_struct *pipex, int i);
+int	cmd_needing(t_struct *pipex, int *fd, int argc);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: molla <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:31:52 by molla             #+#    #+#             */
-/*   Updated: 2023/02/21 20:09:41 by molla            ###   ########.fr       */
+/*   Updated: 2023/04/22 21:45:55 by molla            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,5 @@ char	*ft_strtrim(char *s1, const char *set)
 		i++;
 	}
 	str[i] = '\0';
-	free(s1);
 	return (str);
 }
-/*
-int	main()
-{
-	char const s1[17] = "tripouille   xxx";
-	char const set[3] = " x";
-	ft_strtrim(s1, set);
-	return (0);
-}
-*/
