@@ -12,14 +12,32 @@
 
 #include "pipex.h"
 
-void	free_tab(char **tab)
+void	free_paths(t_struct *pipex)
 {
 	int	i;
 
 	i = -1;
-	while (tab[++i] != NULL)
-		free(tab[i]);
-	free(tab);
+	while (pipex->paths[++i] != NULL)
+	{
+		free(pipex->paths[i]);
+		pipex->paths[i] = NULL;
+	}
+	free(pipex->paths);
+	pipex->paths = NULL;
+}
+
+void	free_args(t_struct *pipex)
+{
+	int	i;
+
+	i = -1;
+	while (pipex->args[++i] != NULL)
+	{
+		free(pipex->args[i]);
+		pipex->args[i] = NULL;
+	}
+	free(pipex->args);
+	pipex->args = NULL;
 }
 
 int	establishment(t_struct *pipex, char **argv, char **envp, int *fd)
@@ -31,12 +49,16 @@ int	establishment(t_struct *pipex, char **argv, char **envp, int *fd)
 	pipex->outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (pipex->outfile == -1)
 		return (perror("Outfile"), 1);
-	create_paths_tab(pipex, envp);
+	//create_paths_tab(pipex, envp);
 	if (pipe(fd) == -1)
 		return (perror("Pipe"), 1);
+	create_paths_tab(pipex, envp);
 	pipex->pid = fork();
 	if (pipex->pid == -1)
+	{
+		free_paths(pipex);
 		return (perror("Fork"), 1);
+	}
 	return (0);
 }
 

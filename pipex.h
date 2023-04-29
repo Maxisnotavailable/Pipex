@@ -34,7 +34,8 @@ void	child_process(int *fd, t_struct *pipex, char **argv, char **envp);
 void	child2_process(int *fd, t_struct *pipex, char **argv, char **envp);
 int		parent_process(int *fd, t_struct *pipex, int x);
 
-void	free_tab(char **tab);
+void	free_paths(t_struct *pipex);
+void	free_args(t_struct *pipex);
 int		establishment(t_struct *pipex, char **argv, char **envp, int *fd);
 void	create_paths_tab(t_struct *pipex, char **envp);
 int		check_cmd(char **argv, t_struct *pipex, int i);

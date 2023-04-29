@@ -17,9 +17,8 @@ void	child_process(int *fd, t_struct *pipex, char **argv, char **envp)
 	close(fd[0]);
 	if (check_cmd(argv, pipex, -1) == 1)
 	{
-		close(fd[1]);
-		close(pipex->infile);
-		system("leaks pipex");
+		free_args(pipex);
+		free_paths(pipex);
 		exit (1);
 	}
 	dup2(pipex->infile, STDIN_FILENO);
@@ -37,8 +36,8 @@ void	child2_process(int *fd, t_struct *pipex, char **argv, char **envp)
 	dup2(fd[0], STDIN_FILENO);
 	if (check_cmd(argv, pipex, -1) == 1)
 	{
-		close(pipex->outfile);
-		close(fd[0]);
+		free_args(pipex);
+		free_paths(pipex);
 		exit (1);
 	}
 	dup2(pipex->outfile, STDOUT_FILENO);
@@ -91,7 +90,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	parent_process(fd, &pipex, 1);
-	//free_tab(pipex.paths);
-	//free_tab(pipex.args);
+	free_paths(&pipex);
 	return (0);
 }

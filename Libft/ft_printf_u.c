@@ -14,7 +14,7 @@
 
 static void	ft_putnbr_unsigned_fd(unsigned int n, unsigned int fd)
 {
-	if (n >= 0 && n <= 9)
+	if (n <= 9)
 		ft_putchar_fd(n + '0', fd);
 	else
 	{
