@@ -12,12 +12,44 @@
 
 #include "pipex_bonus.h"
 
+void	free_paths(t_struct *pipex)
+{
+	int	i;
+
+	i = -1;
+	while (pipex->paths[++i] != NULL)
+	{
+		free(pipex->paths[i]);
+		pipex->paths[i] = NULL;
+	}
+	free(pipex->paths);
+	pipex->paths = NULL;
+}
+
+void	free_args(t_struct *pipex)
+{
+	int	i;
+
+	i = -1;
+	while (pipex->args[++i] != NULL)
+	{
+		free(pipex->args[i]);
+		pipex->args[i] = NULL;
+	}
+	free(pipex->args);
+	pipex->args = NULL;
+}
+
 void	child_process(t_struct *pipex, char **argv, char **envp)
 {
 	if (pipex->fd_pipe != 0)
 		close(pipex->fd_pipe);
 	if (check_cmd(argv, pipex, -1) == 1)
+	{
+		free_args(pipex);
+		free_paths(pipex);
 		exit (1);
+	}
 	dup2(pipex->fd_out, STDOUT_FILENO);
 	dup2(pipex->fd_in, STDIN_FILENO);
 	execve(pipex->args[0], pipex->args, envp);
@@ -60,6 +92,7 @@ int	main(int argc, char **argv, char **envp)
 		pipex.cmd_nbr++;
 	}
 	parent_process(&pipex, argc, 1);
+	free_paths(&pipex);
 	unlink("Infile");
 	return (0);
 }

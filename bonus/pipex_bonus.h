@@ -32,9 +32,11 @@ typedef struct s_struct {
 	int		fd_pipe;
 }	t_struct;
 
-int	establishment(t_struct *pipex, int argc, char **argv, char **envp);
-int	create_paths_tab(t_struct *pipex, char **envp);
-int	check_cmd(char **argv, t_struct *pipex, int i);
-int	cmd_needing(t_struct *pipex, int *fd, int argc);
+void	free_paths(t_struct *pipex);
+void	free_args(t_struct *pipex);
+int		establishment(t_struct *pipex, int argc, char **argv, char **envp);
+void	create_paths_tab(t_struct *pipex, char **envp);
+int		check_cmd(char **argv, t_struct *pipex, int i);
+int		cmd_needing(t_struct *pipex, int *fd, int argc);
 
 #endif

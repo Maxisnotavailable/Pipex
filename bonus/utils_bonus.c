@@ -40,8 +40,6 @@ int	heredoc_create_fdin(t_struct *pipex, char **argv)
 
 int	establishment(t_struct *pipex, int argc, char **argv, char **envp)
 {
-	if (create_paths_tab(pipex, envp) == 1)
-		return (1);
 	if (ft_strncmp("here_doc", argv[1], 8) == 0)
 	{
 		pipex->cmd_nbr = 2;
@@ -51,7 +49,6 @@ int	establishment(t_struct *pipex, int argc, char **argv, char **envp)
 				| O_APPEND, S_IRWXU);
 		if (pipex->outfile == -1)
 			return (perror("Outfile"), 1);
-		return (0);
 	}
 	else
 	{
@@ -64,10 +61,11 @@ int	establishment(t_struct *pipex, int argc, char **argv, char **envp)
 		if (pipex->outfile == -1)
 			return (perror("Outfile"), 1);
 	}
+	create_paths_tab(pipex, envp);
 	return (0);
 }
 
-int	create_paths_tab(t_struct *pipex, char **envp)
+void	create_paths_tab(t_struct *pipex, char **envp)
 {
 	int	i;
 
@@ -77,7 +75,6 @@ int	create_paths_tab(t_struct *pipex, char **envp)
 	i = -1;
 	while (pipex->paths[++i] != NULL)
 		pipex->paths[i] = ft_strjoin_gnl(pipex->paths[i], "/", 0);
-	return (0);
 }
 
 int	check_cmd(char **argv, t_struct *pipex, int i)
